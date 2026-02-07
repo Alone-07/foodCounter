@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('cache-clear', function () {
+    Artisan::call('config:clear');
     Artisan::call('cache:clear');
     Artisan::call('optimize');
 
@@ -17,10 +18,13 @@ Route::get('/check', function () {
     return response()->json("Api running...", 200);
 });
 
-Route::post('sign-up', [UserController::class, 'signUp']);
+Route::post('signup', [UserController::class, 'signup']);
 Route::post('login', [UserController::class, 'login']);
 
 Route::get('list-items', [MenuItemsController::class, 'listItems']);
 Route::post('create-item', [MenuItemsController::class, 'createItem']);
 Route::put('update-item/{item}', [MenuItemsController::class, 'updateItem']);
 Route::delete('delete-item/{item}', [MenuItemsController::class, 'deleteItem']);
+
+
+// Route::get('/users', [UserController::class, 'listUsers']);

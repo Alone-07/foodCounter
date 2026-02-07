@@ -29,5 +29,6 @@ class MenuItem extends Model
         'price',
         'item_ordered',
         'is_available',
+        'img_url',
     ];
 }

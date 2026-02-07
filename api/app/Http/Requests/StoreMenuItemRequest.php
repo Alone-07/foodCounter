@@ -37,6 +37,13 @@ class StoreMenuItemRequest extends FormRequest
                 'sometimes',
                 'boolean',
             ],
+
+            'img' => [
+                'required',
+                'image',                 // jpeg, png, jpg, gif, webp
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',              // KB → 2MB
+            ],
         ];
     }
 

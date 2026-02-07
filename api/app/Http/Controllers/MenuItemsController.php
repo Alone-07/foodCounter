@@ -5,35 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMenuItemRequest;
 use App\Http\Requests\UpdateMenuItemRequest;
 use App\Models\MenuItem;
-use Illuminate\Http\Request;
-use Ramsey\Collection\Collection;
-
-use function PHPSTORM_META\type;
 
 class MenuItemsController extends Controller
 {
     public function createItem(StoreMenuItemRequest $request) {
-        // $validated = $request->validate([
-        // 'name' => 'required|string|min:2|max:100',
-        // 'price' => 'required|integer|min:1',
-        // 'item_ordered' => 'required|integer|min:0',
-        // 'is_available' => 'sometimes|boolean',
-        // ]);
-
-        // MenuItem::create([
-        //     'name' => $validated['name'],
-        //     'price' => $validated['price'],
-        //     'item_ordered' => $validated['item_ordered'],
-        //     'is_available' => $validated['is_available'],
-        // ]);
-
         $validated = $request->validated();
+        
+        $img = $request->file('img');
+        $path = $img->store('menu-items', 'public');
 
         MenuItem::create([
             'name' => $validated['name'],
             'price' => $validated['price'],
             'item_ordered' => $validated['item_ordered'],
             'is_available' => $validated['is_available'],
+            'img_url' => $path,
         ]);
 
         return response()->json([
@@ -54,7 +40,7 @@ class MenuItemsController extends Controller
 
         return response()->json([
             'item' => $item,
-            'colleciton' => $update
+            'collection' => $update
         ]);
     }
 
