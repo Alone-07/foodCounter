@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMenuItemRequest;
+use App\Http\Requests\StorePreOrderRequest;
 use App\Http\Requests\UpdateMenuItemRequest;
 use App\Models\MenuItem;
+use App\Models\PreOrder;
+use App\Models\User;
 
 class MenuItemsController extends Controller
 {
@@ -32,7 +35,7 @@ class MenuItemsController extends Controller
 
         $update = [];
         foreach($validated as $key => $value) {
-            if($value !== NULL) {
+            if($value != NULL) {
                 $update[$key] = $value;
             }
         }
@@ -40,7 +43,7 @@ class MenuItemsController extends Controller
 
         return response()->json([
             'item' => $item,
-            'collection' => $update
+            'collection' => $update,
         ]);
     }
 
@@ -54,6 +57,40 @@ class MenuItemsController extends Controller
         // $items = MenuItem::where('is_available', true)->get();
         $items = MenuItem::get();
         return response()->json($items, 200);
+    }
+
+    public function preOrder(StorePreOrderRequest $request) {
+        $payload = $request->validated();
+        
+        $user_data = [
+            'name' => $payload['name'],
+            'email' => $payload['email'],
+            'password' => 'user@foodCourt',
+        ];
+
+
+        $user = User::create($user_data);
+
+        $items = $payload['items'];
+
+        foreach($items as $item) {
+            PreOrder::create([
+                'user_id' => $user->id,
+                'men_item_id' => $item['menu_item_id'],
+                'quantity' => $item['quantity'],
+            ]);
+        }
+        
+        return response()->json([
+            'payload' => $payload,
+            'items' => $items
+        ], 201);
+    }
+
+    public function getPreOrders() {
+        $preOrders = PreOrder::with('user')->get();
+
+        return response()->json($preOrders, 200);
     }
 
 }

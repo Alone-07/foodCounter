@@ -22,9 +22,15 @@ Route::post('signup', [UserController::class, 'signup']);
 Route::post('login', [UserController::class, 'login']);
 
 Route::get('list-items', [MenuItemsController::class, 'listItems']);
-Route::post('create-item', [MenuItemsController::class, 'createItem']);
-Route::put('update-item/{item}', [MenuItemsController::class, 'updateItem']);
-Route::delete('delete-item/{item}', [MenuItemsController::class, 'deleteItem']);
+
+Route::middleware(['auth:sanctum'])->group(function (){
+    Route::post('create-item', [MenuItemsController::class, 'createItem']);
+    Route::post('update-item/{item}', [MenuItemsController::class, 'updateItem']);
+    Route::delete('delete-item/{item}', [MenuItemsController::class, 'deleteItem']);
+});
+
+Route::post('pre-order', [MenuItemsController::class, 'preOrder']);
+Route::get('pre-orders', [MenuItemsController::class, 'getPreOrders']);
 
 
-// Route::get('/users', [UserController::class, 'listUsers']);
+// Route::get('/users', [UserController::class'listUsers']);
