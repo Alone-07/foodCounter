@@ -265,38 +265,62 @@ export default function App() {
             </div>
           </div>
 
-          {/* PRE ORDERS */}
-          <div className="bg-white p-6 rounded-2xl shadow">
-            <h2 className="text-xl font-semibold mb-4">Pre-Orders</h2>
+      {/* PRE ORDERS */}
+      <div className="bg-white p-6 rounded-2xl shadow">
+        <h2 className="text-xl font-semibold mb-4">Pre-Orders</h2>
 
-            {preOrders.length === 0 ? (
-              <p className="text-gray-500">No pre-orders yet</p>
-            ) : (
-              <div className="space-y-3">
-                {preOrders.map((o) => (
-                  <div
-                    key={o.uuid}
-                    className="border p-3 rounded flex justify-between"
-                  >
-                    <div>
-                      <p className="text-xs text-gray-500">Order ID</p>
-                      <p className="font-mono text-xs">{o.uuid.split('-')[0]}</p>
-                      <p className="text-xs text-gray-500">Name</p>
-                      <p className="font-mono text-xs">{o.user.name}</p>
-                      <p className="text-xs text-gray-500">Email</p>
-                      <p className="font-mono text-xs">{o.user.email}</p>
+        {preOrders.length === 0 ? (
+          <p className="text-gray-500">No pre-orders yet</p>
+        ) : (
+          <div className="space-y-6">
+            {preOrders.map((user) => (
+              <div
+                key={user.email}
+                className="border rounded-xl p-4 bg-orange-50"
+              >
+                {/* USER INFO */}
+                <div className="mb-3">
+                  <h3 className="font-semibold text-lg">{user.name}</h3>
+                  <p className="text-sm text-gray-600">{user.email}</p>
+                  <span className="inline-block mt-1 text-xs bg-orange-200 px-2 py-1 rounded">
+                    Total Items: {user.total_items}
+                  </span>
+                </div>
+
+                {/* ORDERS */}
+                <div className="space-y-2">
+                  {user.orders.map((order) => (
+                    <div
+                      key={order.uuid}
+                      className="flex justify-between items-center bg-white p-3 rounded shadow-sm"
+                    >
+                      <div>
+                        <p className="text-xs text-gray-500">Order ID</p>
+                        <p className="font-mono text-xs">
+                          {order.uuid.slice(0, 8)}
+                        </p>
+
+                        <p className="text-xs text-gray-500 mt-1">Created</p>
+                        <p className="text-xs">
+                          {new Date(order.created_at).toLocaleString()}
+                        </p>
+                      </div>
+
+                      <div className="text-right">
+                        <p className="font-semibold">Qty: {order.quantity}</p>
+                        <span className="inline-block mt-1 text-xs bg-yellow-200 px-2 py-1 rounded">
+                          {order.status}
+                        </span>
+                      </div>
                     </div>
-                    <div>
-                      <p>Qty: {o.quantity}</p>
-                      <span className="text-xs bg-yellow-200 px-2 py-1 rounded">
-                        {o.status}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            )}
+            ))}
           </div>
+        )}
+      </div>
+
         </>
       )}
 

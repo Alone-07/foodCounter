@@ -87,8 +87,21 @@ class MenuItemsController extends Controller
         ], 201);
     }
 
-    public function getPreOrders() {
-        $preOrders = PreOrder::with('user')->get();
+    public function getPreOrders()
+    {
+        $preOrders = PreOrder::with(['user', 'menuItem'])
+            ->get()
+            ->groupBy('user.email')
+            ->map(function ($orders) {
+                $user = $orders->first()->user;
+                return [
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'orders' => $orders,
+                    'total_items' => $orders->sum('quantity'),
+                ];
+            })
+            ->values();
 
         return response()->json($preOrders, 200);
     }
