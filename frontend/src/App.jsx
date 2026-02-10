@@ -282,8 +282,14 @@ export default function App() {
                 <div className="mb-3">
                   <h3 className="font-semibold text-lg">{user.name}</h3>
                   <p className="text-sm text-gray-600">{user.email}</p>
-                  <span className="inline-block mt-1 text-xs bg-orange-200 px-2 py-1 rounded">
+                  <span className="inline-block mt-1 ml-1 text-xs bg-orange-200 px-2 py-1 rounded">
                     Total Items: {user.total_items}
+                  </span>
+
+                  <span className="inline-block mt-1 ml-1 text-xs bg-orange-200 px-2 py-1 rounded">
+                    Total Amount: {user.orders.reduce((prev, next) => {
+                      return prev += next?.menu_item?.price || 0;
+                    }, 0) * user.total_items}
                   </span>
                 </div>
 
@@ -298,6 +304,11 @@ export default function App() {
                         <p className="text-xs text-gray-500">Order ID</p>
                         <p className="font-mono text-xs">
                           {order.uuid.slice(0, 8)}
+                        </p>
+
+                        <p className="text-xs text-gray-500">Ordered</p>
+                        <p className="font-mono text-xs">
+                          {order.menu_item?.name}
                         </p>
 
                         <p className="text-xs text-gray-500 mt-1">Created</p>
