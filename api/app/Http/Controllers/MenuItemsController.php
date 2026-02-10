@@ -76,7 +76,7 @@ class MenuItemsController extends Controller
         foreach($items as $item) {
             PreOrder::create([
                 'user_id' => $user->id,
-                'men_item_id' => $item['menu_item_id'],
+                'menu_item_id' => $item['menu_item_id'],
                 'quantity' => $item['quantity'],
             ]);
         }
