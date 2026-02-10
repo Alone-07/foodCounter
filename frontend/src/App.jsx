@@ -288,8 +288,8 @@ export default function App() {
 
                   <span className="inline-block mt-1 ml-1 text-xs bg-orange-200 px-2 py-1 rounded">
                     Total Amount: {user.orders.reduce((prev, next) => {
-                      return prev += next?.menu_item?.price || 0;
-                    }, 0) * user.total_items}
+                      return prev += (next?.menu_item?.price || 0) * next?.quantity;
+                    }, 0)}
                   </span>
                 </div>
 
